@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Business Management System</title>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+
+        /* Background color cusub */
+        background: linear-gradient(135deg, #667eea, #764ba2);
+    }
+
+    h1 {
+        text-align: center;
+        color: white;
+    }
+
+    .container {
+        max-width: 700px;
+        margin: auto;
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+</style>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px 0;
+            width: 100%;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background: #007bff;
+            color: white;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+        .total {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Business Management System</h1>
+
+<div class="container">
+    <h3>Add Product</h3>
+
+    <label>Product Name</label>
+    <input type="text" id="productName">
+
+    <label>Price</label>
+    <input type="number" id="productPrice">
+
+    <label>Quantity</label>
+    <input type="number" id="productQty">
+
+    <button onclick="addProduct()">Add Product</button>
+
+    <p class="error" id="errorMsg"></p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody id="productTable"></tbody>
+    </table>
+
+    <p class="total">Grand Total: $<span id="grandTotal">0</span></p>
+</div>
+
+<script>
+    let products = [];
+
+    function addProduct() {
+        let name = document.getElementById("productName").value.trim();
+        let price = document.getElementById("productPrice").value;
+        let qty = document.getElementById("productQty").value;
+        let errorMsg = document.getElementById("errorMsg");
+
+        // Validation
+        if (name === "" || price <= 0 || qty <= 0) {
+            errorMsg.textContent = "Fadlan geli xog sax ah (name, price & quantity).";
+            return;
+        }
+
+        errorMsg.textContent = "";
+
+        let product = {
+            name: name,
+            price: Number(price),
+            quantity: Number(qty)
+        };
+
+        products.push(product);
+        displayProducts();
+        clearInputs();
+    }
+
+    function displayProducts() {
+        let table = document.getElementById("productTable");
+        table.innerHTML = "";
+        let totalAmount = 0;
+
+        products.forEach((product, index) => {
+            let total = product.price * product.quantity;
+            totalAmount += total;
+
+            table.innerHTML += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${product.name}</td>
+                    <td>$${product.price}</td>
+                    <td>${product.quantity}</td>
+                    <td>$${total}</td>
+                </tr>
+            `;
+        });
+
+        document.getElementById("grandTotal").textContent = totalAmount;
+    }
+
+    function clearInputs() {
+        document.getElementById("productName").value = "";
+        document.getElementById("productPrice").value = "";
+        document.getElementById("productQty").value = "";
+    }
+</script>
+
+</body>
+</html>
